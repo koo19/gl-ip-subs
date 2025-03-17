@@ -32,7 +32,7 @@ jobs:
       - name: Merge files into cn-ip-subs.txt
         run: |
           echo "Merging files: china-ip-list/chnroute.txt, china-ip-list/chnroute_v6.txt, custom.txt"
-          (cat custom.txt; echo; cat china-ip-list/chnroute.txt; echo;) > cn-ip-subs.txt
+          (cat custom.txt; cat china-ip-list/chnroute.txt;) > cn-ip-subs.txt
           echo "Merged file content:"
           head -n 10 cn-ip-subs.txt  # 显示前 10 行便于调试
 
