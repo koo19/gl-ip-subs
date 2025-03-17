@@ -1,5 +1,8 @@
 name: Merge and Update cn-ip-subs.txt
 
+permissions:
+  contents: write
+
 on:
   # 每小时运行一次
   schedule:
