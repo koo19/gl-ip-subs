@@ -1,0 +1,47 @@
+name: Merge and Update cn-ip-subs.txt
+
+on:
+  # 每小时运行一次
+  schedule:
+    - cron: '0 * * * *'
+  # 支持手动触发
+  workflow_dispatch:
+
+jobs:
+  merge_and_update:
+    runs-on: ubuntu-latest
+    steps:
+      # STEP 1：签出当前仓库 (koo19/gl-ip-subs)
+      - name: Checkout current repository (gl-ip-subs)
+        uses: actions/checkout@v3
+
+      # STEP 2：签出远程仓库 mayaxcn/china-ip-list 到子目录 china-ip-list
+      - name: Checkout china-ip-list repository
+        uses: actions/checkout@v3
+        with:
+          repository: mayaxcn/china-ip-list
+          token: ${{ secrets.GITHUB_TOKEN }}
+          path: china-ip-list
+
+      # STEP 3：合并文件
+      # 这里按顺序合并 china-ip-list 仓库中的 chnroute.txt 与 chnroute_v6.txt
+      # 以及当前仓库中的 custom.txt，生成文件 cn-ip-subs.txt
+      - name: Merge files into cn-ip-subs.txt
+        run: |
+          echo "Merging files: china-ip-list/chnroute.txt, china-ip-list/chnroute_v6.txt, custom.txt"
+          cat china-ip-list/chnroute.txt china-ip-list/chnroute_v6.txt custom.txt > cn-ip-subs.txt
+          echo "Merged file content:"
+          head -n 10 cn-ip-subs.txt  # 显示前 10 行便于调试
+
+      # STEP 4：若有更改，则提交并推送 cn-ip-subs.txt
+      - name: Commit and push changes
+        run: |
+          git config user.name "GitHub Action"
+          git config user.email "action@github.com"
+          if [ -n "$(git status --porcelain)" ]; then
+            git add cn-ip-subs.txt
+            git commit -m "Update cn-ip-subs.txt with latest merged content"
+            git push origin main
+          else
+            echo "No changes detected, skipping commit."
+          fi
