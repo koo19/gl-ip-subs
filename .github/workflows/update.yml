@@ -44,7 +44,7 @@ jobs:
           git config user.email "action@github.com"
           if [ -n "$(git status --porcelain)" ]; then
             git add cn-ip-subs.txt
-            git add ip-subs.txt
+            git add public/ip-subs.txt
             git commit -m "Update cn-ip-subs.txt with latest merged content"
             git push origin main
           else
