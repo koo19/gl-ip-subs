@@ -5,7 +5,7 @@ export const onRequest = async (context: { request: Request; env: Env }) => {
   try {
     // Read both files from the root directory
     const [ipSubsContent] = await Promise.all([
-      fetch('/ip-subs.txt').then(res => res.text())
+      fetch('ip-subs.txt').then(res => res.text())
     ]);
 
     // Concatenate the content
