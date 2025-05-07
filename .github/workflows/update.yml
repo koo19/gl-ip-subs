@@ -35,7 +35,7 @@ jobs:
           cat china-ip-list/chnroute.txt > cn-ip-subs.txt
           (cat custom.txt; cat china-ip-list/chnroute.txt;) > public/ip-subs.txt
           echo "Merged file content:"
-          head -n 10 ip-subs.txt  # 显示前 10 行便于调试
+          head -n 10 public/ip-subs.txt  # 显示前 10 行便于调试
 
       # STEP 4：若有更改，则提交并推送 cn-ip-subs.txt
       - name: Commit and push changes
