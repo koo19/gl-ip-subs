@@ -1,7 +1,0 @@
-name = "gl-ip-subs"
-
-[site]
-bucket = "./public"
-
-[build]
-command = "cp custom.txt cn-ip-subs.txt ./public/"
