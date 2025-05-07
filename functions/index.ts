@@ -1,17 +1,15 @@
 export interface Env {
-  // We can remove GITHUB_TOKEN since we won't be accessing GitHub API
 }
 
 export const onRequest = async (context: { request: Request; env: Env }) => {
   try {
     // Read both files from the root directory
-    const [customContent, cnIpSubsContent] = await Promise.all([
-      fetch('custom.txt').then(res => res.text()),
-      fetch('cn-ip-subs.txt').then(res => res.text())
+    const [ipSubsContent] = await Promise.all([
+      fetch('/ip-subs.txt').then(res => res.text())
     ]);
 
     // Concatenate the content
-    const combinedContent = `${customContent}\n${cnIpSubsContent}`;
+    const combinedContent = `${ipSubsContent}`;
 
     // Set up response headers
     const headers = new Headers();
